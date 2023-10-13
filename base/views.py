@@ -34,3 +34,8 @@ def loginview(request):
 def logoutview(request):
     logout(request)
     return redirect('login')
+
+
+@login_required(login_url='login')
+def EmployeeView(request):
+    return render(request,'employees.html')

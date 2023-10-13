@@ -18,13 +18,15 @@ from django.contrib import admin
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
-from base.views import dashboard,loginview,logoutview
+from base.views import dashboard,loginview,logoutview,EmployeeView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('dashboard/',dashboard,name = "dashboard"),
     path('login/',loginview,name = "login"),
-    path('logout/',logoutview,name="logout")
+    path('logout/',logoutview,name="logout"),
+    path('dashboard/employees',EmployeeView,name = "employees"),
+
 ]
 
 if settings.DEBUG:
