@@ -4,7 +4,7 @@ import uuid
 
 class Employee(models.Model):
     uuid = models.UUIDField(default = uuid.uuid4,primary_key=True,editable=False)
-    name = models.CharField(max_length=30)
+    Emp_name = models.CharField(max_length=30)
     email = models.EmailField(max_length=50)
     contract_no = models.CharField(unique=True,max_length=15,)
     contract_start_date = models.DateField()
