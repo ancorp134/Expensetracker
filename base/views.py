@@ -29,3 +29,8 @@ def loginview(request):
         return render(request,"login.html")
 
     return render(request,"login.html")
+
+@login_required(login_url='login')
+def logoutview(request):
+    logout(request)
+    return redirect('login')
