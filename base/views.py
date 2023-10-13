@@ -3,6 +3,7 @@ from django.contrib.auth import login,logout,authenticate
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from .models import Employee
 
 # Create your views here.
 @login_required(login_url='login')
@@ -38,4 +39,11 @@ def logoutview(request):
 
 @login_required(login_url='login')
 def EmployeeView(request):
-    return render(request,'employees.html')
+    try:
+        employees = Employee.objects.all()
+        context = {
+            'employees' : employees
+        }
+    except:
+        pass
+    return render(request,'employees.html',context)

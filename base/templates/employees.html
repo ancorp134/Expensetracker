@@ -13,23 +13,33 @@
     <div class="activity-data">
         <div class="data names">
             <span class="data-title">Employee Name</span>
-            <span class="data-list">Prem Shahi</span>
+            {% for employee in employees %}
+            <span class="data-list"><a href="" target="_blank">{{employee.Emp_name}}</a></span>
+            {% endfor %}
         </div>
         <div class="data email">
             <span class="data-title">Contract No.</span>
-            <span class="data-list">premshahi@gmail.com</span>
+            {% for employee in employees %}
+            <span class="data-list">{{employee.contract_no}}</span>
+            {% endfor %}
         </div>
         <div class="data joined">
             <span class="data-title">Start</span>
-            <span class="data-list">2022-02-12</span>
+            {% for employee in employees %}
+            <span class="data-list">{{employee.contract_start_date}}</span>
+            {% endfor %}
         </div>
         <div class="data type">
             <span class="data-title">End</span>
-            <span class="data-list">New</span>
+            {% for employee in employees %}
+            <span class="data-list">{{employee.contract_end_date}}</span>
+            {% endfor %}
         </div>
         <div class="data status">
             <span class="data-title">Duty Station</span>
-            <span class="data-list">Liked</span>
+            {% for employee in employees %}
+            <span class="data-list">{{employee.duty_station}}</span>
+            {% endfor %}
         </div>
     </div>
 {% endblock %}
