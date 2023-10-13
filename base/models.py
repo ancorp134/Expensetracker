@@ -21,6 +21,7 @@ class Employee(models.Model):
 def get_upload_path(instance,filename):
     return os.path.join('Advance Trip Plans/' +  str(instance.employee.Emp_name),filename)
 
+
 class AdvancedTravelPlan(models.Model):
     id = models.UUIDField(default=uuid.uuid4,primary_key=True,editable=False)
     employee = models.ForeignKey(Employee,on_delete=models.CASCADE)
@@ -44,6 +45,8 @@ class AdvancedTravelPlan(models.Model):
 
     def __str__(self):
         return str(self.employee)
+
+
 
 
 class FlightBudget(models.Model):
