@@ -22,7 +22,7 @@ from base.views import dashboard,loginview,logoutview,EmployeeView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('dashboard/',dashboard,name = "dashboard"),
+    path('',dashboard,name = "dashboard"),
     path('login/',loginview,name = "login"),
     path('logout/',logoutview,name="logout"),
     path('dashboard/employees',EmployeeView,name = "employees"),
