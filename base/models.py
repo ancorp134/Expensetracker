@@ -17,10 +17,8 @@ class Employee(models.Model):
     def __str__(self):
         return str(self.Emp_name)
 
-
 def get_upload_path(instance,filename):
     return os.path.join('Advance Trip Plans/' +  str(instance.employee.Emp_name),filename)
-
 
 class AdvancedTravelPlan(models.Model):
     id = models.UUIDField(default=uuid.uuid4,primary_key=True,editable=False)
@@ -47,8 +45,6 @@ class AdvancedTravelPlan(models.Model):
         return str(self.employee)
 
 
-
-
 class FlightBudget(models.Model):
     uuid = models.UUIDField(default = uuid.uuid4,primary_key=True,editable=False)
     employee = models.ForeignKey(Employee,on_delete=models.CASCADE, null = True)
@@ -56,6 +52,7 @@ class FlightBudget(models.Model):
     from_date = models.DateField(null = True)
     to_date = models.DateField(null = True)
     remaining_budget = models.DecimalField(decimal_places=2,default = 0,max_digits = 10)
+<<<<<<< HEAD
 
 class OPEBudget(models.Model):
     uuid = models.UUIDField(default = uuid.uuid4,primary_key=True,editable=False)
@@ -92,4 +89,38 @@ class Expense(models.Model):
 
 
 
+=======
+>>>>>>> 15098e4d04a533c32af2b11be055d9040d63c1e3
 
+class OPEBudget(models.Model):
+    uuid = models.UUIDField(default = uuid.uuid4,primary_key=True,editable=False)
+    employee = models.ForeignKey(Employee,on_delete=models.CASCADE, null = True)
+    allocated_budget = models.DecimalField(decimal_places=2,default = 0,max_digits = 10)
+    from_date = models.DateField(null = True)
+    to_date = models.DateField(null = True)
+    remaining_budget = models.DecimalField(decimal_places=2,default = 0,max_digits = 10)
+
+class TravelBudget(models.Model):
+    uuid = models.UUIDField(default = uuid.uuid4,primary_key=True,editable=False)
+    employee = models.ForeignKey(Employee,on_delete=models.CASCADE, null = True)
+    allocated_budget = models.DecimalField(decimal_places=2,default = 0,max_digits = 10)
+    from_date = models.DateField(null = True)
+    to_date = models.DateField(null = True)
+    remaining_budget = models.DecimalField(decimal_places=2,default = 0,max_digits = 10)
+
+class Expense(models.Model):
+    uuid = models.UUIDField(default = uuid.uuid4,primary_key=True,editable=False)
+    employee = models.ForeignKey(Employee,on_delete=models.CASCADE,null = True)
+    from_date = models.DateField(null = True)
+    to_date = models.DateField(null = True)
+    ope_budget_used = models.DecimalField(decimal_places=2,default=0,max_digits = 10)
+    travel_budget_used = models.DecimalField(decimal_places=2,default=0,max_digits = 10)
+    flight_budget_used = models.DecimalField(decimal_places=2,default=0,max_digits = 10)
+    flight_ticket = models.FileField(upload_to=get_upload_path, blank = True)
+    flight_return_ticket = models.FileField(upload_to=get_upload_path, blank = True)
+    train_ticket = models.FileField(upload_to=get_upload_path, blank = True)
+    train_return_ticket = models.FileField(upload_to=get_upload_path, blank = True)
+    local_conveyance = models.DecimalField(decimal_places=2,default=0,max_digits = 10)
+    place_of_visit = models.CharField(max_length = 30,null = True)
+    taxi_bill = models.DecimalField(max_digits=10, decimal_places=2,default = 0)
+    taxi_bill_proof = models.FileField(upload_to=get_upload_path, blank = True)
