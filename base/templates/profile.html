@@ -23,17 +23,21 @@
                 <!-- <img src="images/logo.png" alt=""> -->
             </div>
 
-            <a href="{% url 'employees' %}" style="text-decoration: none;"><span class="logo_name">Inductus</span></a>
+            <span class="logo_name">Inductus</span>
         </div>
 
         <div class="menu-items">
             <ul class="nav-links">
+                <li><a href="{% url 'employees' %}">
+                    <i class="uil uil-files-landscapes"></i>
+                    <span class="link-name">Employees</span>
+                </a></li>
 
-                <li><a href="{% url 'employees' %}" target="_self">
+                <li><a href="" target="_self">
                         <i class="uil uil-files-landscapes"></i>
-                        <span class="link-name">Employees</span>
+                        <span class="link-name">Profile</span>
                     </a></li>
-                    <li><a href="">
+                    <li><a href="{% url 'atp' employee.uuid %}">
                         <i class="uil uil-files-landscapes"></i>
                         <span class="link-name">Advanced Travel Plan</span>
                     </a></li>

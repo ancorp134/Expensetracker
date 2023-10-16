@@ -12,43 +12,55 @@
         <i class="uil uil-bookmark"></i>
         <span class="text">Employees</span>
     </div>
-
+        <form id = "search-form" method = 'get' action = "/search">
         <div class="search-box">
             <i class="uil uil-search"></i>
-            <input type="text" placeholder="Search Employee...">
+            <input name = "search_query" type="text" value = "{{search_query}}"placeholder="Search Employee...">
+            <button type = submit style = "  background-color: #04AA6D;
+            border: none;
+            color: white;
+            padding:8px;
+            margin-left:5px;
+            border-radius: 9px 2px;
+            background-color: #0E4BF1;
+            
+          ">Search</button>
         </div>
+    </form>
     </div>
     
-    <div class="activity-data">
+    
+        <div class="activity-data">
         <div class="data names">
             <span class="data-title">Employee Name</span>
-            {% for employee in employees %}
+            {% for employee in employ %}
             <span class="data-list"><a href="{% url 'employee' employee.uuid %}">{{employee.Emp_name}}</a></span>
             {% endfor %}
         </div>
         <div class="data email">
             <span class="data-title">Contract No.</span>
-            {% for employee in employees %}
+            {% for employee in employ %}
             <span class="data-list">{{employee.contract_no}}</span>
             {% endfor %}
         </div>
         <div class="data joined">
             <span class="data-title">Start</span>
-            {% for employee in employees %}
+            {% for employee in employ %}
             <span class="data-list">{{employee.contract_start_date}}</span>
             {% endfor %}
         </div>
         <div class="data type">
             <span class="data-title">End</span>
-            {% for employee in employees %}
+            {% for employee in employ %}
             <span class="data-list">{{employee.contract_end_date}}</span>
             {% endfor %}
         </div>
         <div class="data status">
             <span class="data-title">Duty Station</span>
-            {% for employee in employees %}
+            {% for employee in employ %}
             <span class="data-list">{{employee.duty_station}}</span>
             {% endfor %}
         </div>
     </div>
+    
 {% endblock %}

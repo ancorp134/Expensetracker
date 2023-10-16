@@ -25,7 +25,9 @@ urlpatterns = [
     path('login/',loginview,name = "login"),
     path('logout/',logoutview,name="logout"),
     path('',EmployeeView,name = "employees"),
-    path('employee/<str:pk>/',EmployeeProfileView,name = "employee")
+    path('employee/<str:pk>/',EmployeeProfileView,name = "employee"),
+    path('employee/<str:pk>/atp/',AdvancedTravelPlanView,name='atp'),
+    path('search/',Search,name = "search"),
 ]
 
 if settings.DEBUG:

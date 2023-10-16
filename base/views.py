@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import *
-
+from django.db.models import Q
 # Create your views here.
 def loginview(request):
     
@@ -65,4 +65,37 @@ def EmployeeProfileView(request,pk):
         'travel_budget' : travel_budget,
         'ope_budget' : ope_budget
     }
-    return render(request,"base2.html",context)
+    return render(request,"profile.html",context)
+
+@login_required(login_url='login')
+def AdvancedTravelPlanView(request,pk):
+    try:
+        emp = Employee.objects.get(uuid=pk)
+        print(emp)
+        atp = AdvancedTravelPlan.objects.filter(employee=emp)
+        
+    except:
+        atp = None
+
+    context = {
+        'atp' : atp,
+        'emp' : emp
+    }
+    print(atp)
+    return render(request,"advancedtravelplan.html",context)
+
+
+@login_required(login_url='login')
+def Search(request):
+    search_query = request.GET.get('search_query')
+
+    if search_query:
+        employ = Employee.objects.filter( Q(Emp_name__icontains=search_query) | Q(contract_no__icontains=search_query))
+    else:
+        employ = Employee.objects.all()
+    context = {
+        'employ': employ,
+        'search_query': search_query,
+        }
+    return render(request,'employees.html',context)
+        
