@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Employee, AdvancedTravelPlan
+from .models import *
 
 # Register your models here.
 class EmployeeAdmin(admin.ModelAdmin):
@@ -11,10 +11,10 @@ class AdvancedTravelPlanAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Employee,EmployeeAdmin)
-<<<<<<< HEAD
+
 admin.site.register(FlightBudget)
 admin.site.register(OPEBudget)
 admin.site.register(TravelBudget)
 admin.site.register(Expense)
-=======
+
 admin.site.register(AdvancedTravelPlan,AdvancedTravelPlanAdmin)
