@@ -23,7 +23,7 @@
         <div class="data names">
             <span class="data-title">Employee Name</span>
             {% for employee in employees %}
-            <span class="data-list"><a href="{% url 'employee' employee.uuid %}" target="_blank">{{employee.Emp_name}}</a></span>
+            <span class="data-list"><a href="{% url 'employee' employee.uuid %}">{{employee.Emp_name}}</a></span>
             {% endfor %}
         </div>
         <div class="data email">
