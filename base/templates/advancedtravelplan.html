@@ -111,7 +111,7 @@
                         <div class="data type">
                             <span class="data-title">Travel Plan</span>
                             {% for atp in atp %}
-                            <span class="data-list"><button><a href="{{atp.trip_plan.url}}">Download</a></button></span>
+                        <span class="data-list"><button class="download-btn"><a href="{{atp.trip_plan.url}}" style="text-decoration:none; color: white;" >Download</a></button></span>
                             {% endfor %}
                             
                             
