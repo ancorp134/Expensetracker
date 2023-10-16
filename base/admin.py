@@ -11,10 +11,8 @@ class AdvancedTravelPlanAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Employee,EmployeeAdmin)
-
 admin.site.register(FlightBudget)
 admin.site.register(OPEBudget)
 admin.site.register(TravelBudget)
 admin.site.register(Expense)
-
 admin.site.register(AdvancedTravelPlan,AdvancedTravelPlanAdmin)
