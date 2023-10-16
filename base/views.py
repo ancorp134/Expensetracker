@@ -62,4 +62,4 @@ def EmployeeProfileView(request,pk):
         'travel_budget' : travel_budget,
         'ope_budget' : ope_budget
     }
-    return render(request,"profile.html",context)
+    return render(request,"profile.html",context) 
