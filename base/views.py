@@ -6,14 +6,11 @@ from django.contrib import messages
 from .models import Employee
 
 # Create your views here.
-@login_required(login_url='login')
-def dashboard(request):
-    return render(request,'dashboard.html')
 
 def loginview(request):
     
     if request.user.is_authenticated:
-        return redirect('dashboard')
+        return redirect('employees')
 
     if request.method == 'POST' :
         username = request.POST.get('username')
@@ -24,7 +21,7 @@ def loginview(request):
         if user is not None:
             login(request,user)
             context ={'user': user}
-            return redirect(reverse('dashboard'),context)
+            return redirect(reverse('employees'),context)
         
         messages.error(request,"Invalid credentials")
         return render(request,"login.html")
