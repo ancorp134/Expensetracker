@@ -6,11 +6,10 @@ from django.contrib import messages
 from .models import *
 
 # Create your views here.
-
 def loginview(request):
     
     if request.user.is_authenticated:
-        return redirect('employees')
+        return redirect('dashboard')
 
     if request.method == 'POST' :
         username = request.POST.get('username')
@@ -21,7 +20,7 @@ def loginview(request):
         if user is not None:
             login(request,user)
             context ={'user': user}
-            return redirect(reverse('employees'),context)
+            return redirect(reverse('dashboard'),context)
         
         messages.error(request,"Invalid credentials")
         return render(request,"login.html")
@@ -39,27 +38,32 @@ def EmployeeView(request):
     try:
         employees = Employee.objects.all()
         context = {
+            ''
             'employees' : employees
         }
     except:
         pass
     return render(request,'employees.html',context)
 
-
+@login_required(login_url='login')
 def EmployeeProfileView(request,pk):
     flight_budget=0
     travel_budget=0
     ope_budget=0
+    employee=0
     try:
-        employee = Employee.objects.get(id=pk)
+        employee = Employee.objects.get(uuid=pk)
+        print(employee)
         flight_budget = FlightBudget.objects.get(employee=employee)
         travel_budget = TravelBudget.objects.get(employee=employee)
+        print(travel_budget)
         ope_budget = OPEBudget.objects.get(employee=employee)
     except:
         pass
     context = {
+        'employee': employee,
         'flight_budget' : flight_budget,
         'travel_budget' : travel_budget,
         'ope_budget' : ope_budget
     }
-    return render(request,"profile.html",context) 
+    return render(request,"base2.html",context)

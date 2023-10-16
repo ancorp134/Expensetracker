@@ -73,49 +73,31 @@
         <div class="dash-content">
             <div class="overview">
                 <div class="activity">
-                    <div class="emp-title">
-                        <div class = "title-wrapper">
-                        <i class="uil uil-bookmark"></i>
-                        <span class="text">Employees</span>
-                    </div>
-                
-                        <div class="search-box">
-                            <i class="uil uil-search"></i>
-                            <input type="text" placeholder="Search Employee...">
-                        </div>
+                    <div class="title">
+                        <i class="uil uil-tachometer-fast-alt"></i>
+                        <span class="text">{{employee.Emp_name}}</span>
                     </div>
                     
-                    <div class="activity-data">
-                        <div class="data names">
-                            <span class="data-title">Employee Name</span>
-                            {% for employee in employees %}
-                            <span class="data-list"><a href="" target="_blank">{{employee.Emp_name}}</a></span>
-                            {% endfor %}
+                    <div class="boxes">
+                        <div class="box box1">
+                            <i class="uil uil-money-bill"></i>
+                            <span class="text">Travel Budget Allocated</span>
+                            <span class="number">{{travel_budget.allocated_budget}}</span>
                         </div>
-                        <div class="data email">
-                            <span class="data-title">Contract No.</span>
-                            {% for employee in employees %}
-                            <span class="data-list">{{employee.contract_no}}</span>
-                            {% endfor %}
+                        <div class="box box2">
+                            <i class="uil uil-comments"></i>
+                            <span class="text">Comments</span>
+                            <span class="number">20,120</span>
                         </div>
-                        <div class="data joined">
-                            <span class="data-title">Start</span>
-                            {% for employee in employees %}
-                            <span class="data-list">{{employee.contract_start_date}}</span>
-                            {% endfor %}
+                        <div class="box box3">
+                            <i class="uil uil-share"></i>
+                            <span class="text">Total Share</span>
+                            <span class="number">10,120</span>
                         </div>
-                        <div class="data type">
-                            <span class="data-title">End</span>
-                            {% for employee in employees %}
-                            <span class="data-list">{{employee.contract_end_date}}</span>
-                            {% endfor %}
-                        </div>
-                        <div class="data status">
-                            <span class="data-title">Duty Station</span>
-                            {% for employee in employees %}
-                            <span class="data-list">{{employee.duty_station}}</span>
-                            {% endfor %}
-                        </div>
+                    </div>
+                    </div>
+                    
+                    
                     </div>
                 
             </div>
