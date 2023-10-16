@@ -98,4 +98,38 @@ def Search(request):
         'search_query': search_query,
         }
     return render(request,'employees.html',context)
+
+
+@login_required(login_url='login')
+def ActualTravelPlan(request,pk):
+    try:
+        emp = Employee.objects.get(uuid=pk)
+        tp = Expense.objects.filter(employee=emp)
         
+    except:
+        tp = None
+
+    context = {
+        'tp' : tp,
+        'emp' : emp
+    }
+    print(tp)
+    return render(request,"actualtravelplan.html",context)
+
+@login_required(login_url='login')
+def ViewAtp(request,pk1,pk2):
+    try:
+        emp = Employee.objects.get(uuid=pk1)
+        print(emp)
+        tp = Expense.objects.get(uuid=pk2)
+        print(tp)
+
+    except:
+        tp = None
+    context = {
+        'tp':tp,
+        'emp':emp
+    }
+    return render(request,'viewatp.html',context)
+        
+

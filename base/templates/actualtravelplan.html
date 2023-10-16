@@ -38,11 +38,11 @@
                         <i class="uil uil-files-landscapes"></i>
                         <span class="link-name">Profile</span>
                     </a></li>
-                    <li><a href="">
+                    <li><a href="{% url 'atp' emp.uuid %}">
                         <i class="uil uil-files-landscapes"></i>
                         <span class="link-name">Advanced Travel Plan</span>
                     </a></li>
-                    <li><a href="{%  url 'tp' emp.uuid %}">
+                    <li><a href="">
                         <i class="uil uil-files-landscapes"></i>
                         <span class="link-name">Actual Travel Plan</span>
                     </a></li>
@@ -81,37 +81,63 @@
                     <div class="emp-title">
                         <div class = "title-wrapper">
                         <i class="uil uil-plane-departure"></i>
-                        <span class="text">Advanced Travel Plans</span>
+                        <span class="text">Actual Travel Plans</span>
                     </div>
-                
+                    <form id = "search-form" method = 'get' action = "/searchtp/{{emp.uuid}}">
+                        <div class="search-box">
+                            <i class="uil uil-search"></i>
+                            <input name = "search_query" type="text" value = "{{search_query}}"placeholder="Search Employee...">
+                            <button type = submit style = "  background-color: #04AA6D;
+                            border: none;
+                            color: white;
+                            padding:8px;
+                            margin-left:5px;
+                            border-radius: 9px 2px;
+                            background-color: #0E4BF1;
+                            
+                          ">Search</button>
+                        </div>
+                    </form>
                         
                     </div>
                     
                     <div class="activity-data">
                         <div class="data names">
-                            <span class="data-title">Month</span>
+                            <span class="data-title">From Date</span>
                            
-                           {% for atp in atp %}
-                           <span class="data-list">{{atp.month}}</span> 
+                           {% for tp in tp %}
+                           <span class="data-list">{{tp.from_date}}</span> 
                            {% endfor %}
                            
                         </div>
                         <div class="data email">
-                            <span class="data-title">Year</span>
-                            {% for atp in atp %}
-                           <span class="data-list">{{atp.year}}</span> 
+                            <span class="data-title">To Date</span>
+                            {% for tp in tp %}
+                           <span class="data-list">{{tp.to_date}}</span> 
                            {% endfor %}
                         </div>
                         <div class="data joined">
-                            <span class="data-title">Date Added</span>
-                            {% for atp in atp %}
-                            <span class="data-list">{{atp.date_added}}</span> 
-                            {% endfor %}
+                            <span class="data-title">OPE Budget Used</span>
+                            {% for tp in tp %}
+                           <span class="data-list">{{tp.ope_budget_used}}</span> 
+                           {% endfor %}
+                        </div>
+                        <div class="data joined">
+                            <span class="data-title">Travel Budget Used</span>
+                            {% for tp in tp %}
+                           <span class="data-list">{{tp.travel_budget_used}}</span> 
+                           {% endfor %}
+                        </div>
+                        <div class="data joined">
+                            <span class="data-title">Flight Budget Used</span>
+                            {% for tp in tp %}
+                           <span class="data-list">{{tp.flight_budget_used}}</span> 
+                           {% endfor %}
                         </div>
                         <div class="data type">
                             <span class="data-title">Travel Plan</span>
-                            {% for atp in atp %}
-                        <span class="data-list"><button class="download-btn"><a href="{{atp.trip_plan.url}}" style="text-decoration:none; color: white;" >Download</a></button></span>
+                            {% for tp in tp %}
+                        <span class="data-list"><button class="download-btn"><a href="{% url 'viewatp' emp.uuid tp.uuid %}" style="text-decoration:none; color: white;" >View ATP</a></button></span>
                             {% endfor %}
                             
                             
