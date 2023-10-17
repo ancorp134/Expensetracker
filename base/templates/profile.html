@@ -125,37 +125,85 @@
 
 
                     <div class="boxes">
+                        {% if travel_budget.remaining_budget <= remaining_budget_travel %}
+                        <div class="box box1" style="background-color: red;">
+                            <i class="uil uil-money-bill"></i>
+                            <span class="text">Travel Remaining Budget </span>
+                            {% if travel_budget == 0  %}
+                            <span class="number">0</span>
+                            {% else %}
+                                
+                            <span class="number">{{travel_budget.remaining_budget}}</span>
+                            {% endif %}
+                        </div>
+                        {% else %}
                         <div class="box box1">
                             <i class="uil uil-money-bill"></i>
                             <span class="text">Travel Remaining Budget </span>
                             {% if travel_budget == 0  %}
                             <span class="number">0</span>
                             {% else %}
+                                
                             <span class="number">{{travel_budget.remaining_budget}}</span>
                             {% endif %}
                         </div>
-                        <div class="box box2">
+                        {% endif %}
+
+                        {% if flight_budget.remaining_budget <= remaining_budget_flight %}
+                        <div class="box box2" style="background-color: red;">
                             <i class="uil uil-money-bill"></i>
-                            <span class="text">Flight Remaining Budget</span>
+                            <span class="text">Flight Remaining Budget </span>
                             {% if flight_budget == 0  %}
                             <span class="number">0</span>
-
                             {% else %}
+                                
                             <span class="number">{{flight_budget.remaining_budget}}</span>
-
                             {% endif %}
-
                         </div>
+                        {% else %}
+                        <div class="box box2" ">
+                            <i class="uil uil-money-bill"></i>
+                            <span class="text">Flight Remaining Budget </span>
+                            {% if flight_budget == 0  %}
+                            <span class="number">0</span>
+                            {% else %}
+                                
+                            <span class="number">{{flight_budget.remaining_budget}}</span>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                        
+
+                        {% if ope_budget.remaining_budget <= remaining_budget_ope %}
                         <div class="box box3">
                             <i class="uil uil-money-bill"></i>
-                            <span class="text">OPE Remaining Budget</span>
+                            <span class="text">OPE Remaining Budget </span>
                             {% if ope_budget == 0  %}
                             <span class="number">0</span>
-
                             {% else %}
+                                
                             <span class="number">{{ope_budget.remaining_budget}}</span>
                             {% endif %}
+                        </div>
+                        {% else %}
+                        <div class="box box3">
+                            <i class="uil uil-money-bill"></i>
+                            <span class="text">OPE Remaining Budget </span>
+                            {% if ope_budget == 0  %}
+                            <span class="number">0</span>
+                            {% else %}
+                                
+                            <span class="number">{{ope_budget.remaining_budget}}</span>
+                            {% endif %}
+                        </div>
 
+                       {% endif %}
+
+                        
+                        
+
+                        
+                        
 
                            
                         </div>

@@ -506,3 +506,8 @@ nav.close ~ .dashboard .top{
 .download-btn:hover{
     border-radius: 2px solid navy;
  }
+
+.dash-content .boxes .box .red-card {
+    background-color: red !important;
+    color: white;
+}
