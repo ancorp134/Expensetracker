@@ -1,6 +1,9 @@
 from django.db import models
 import uuid
 import os
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.db import transaction
 # Create your models here.
 
 class Employee(models.Model):
@@ -88,3 +91,24 @@ class TravelBudget(models.Model):
     to_date = models.DateField(null = True)
     remaining_budget = models.DecimalField(decimal_places=2,default = 0,max_digits = 10)
 
+def update_budgets(sender, instance, created, **kwargs):
+    if created:
+        # If a new Expense object is created, update the budgets
+        employee = instance.employee
+
+        flight_budget, _ = FlightBudget.objects.get_or_create(employee=employee)
+        flight_budget.remaining_budget -= instance.flight_budget_used
+        flight_budget.save()
+
+        # Update TravelBudget
+        travel_budget, _ = TravelBudget.objects.get_or_create(employee=employee)
+        travel_budget.remaining_budget -= instance.travel_budget_used
+        travel_budget.save()
+
+        # Update OPEBudget
+        ope_budget, _ = OPEBudget.objects.get_or_create(employee=employee)
+        ope_budget.remaining_budget -= instance.ope_budget_used
+        ope_budget.save()
+
+
+post_save.connect(update_budgets, sender=Expense)
