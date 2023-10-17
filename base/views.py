@@ -51,18 +51,22 @@ def EmployeeProfileView(request,pk):
     travel_budget=0
     ope_budget=0
     employee=0
+    remaining_budget_flight = 0
+    remaining_budget_ope =0
+    remaining_budget_travel = 0
     try:
         employee = Employee.objects.get(uuid=pk)
         print(employee)
         flight_budget = FlightBudget.objects.get(employee=employee)
         travel_budget = TravelBudget.objects.get(employee=employee)
         ope_budget = OPEBudget.objects.get(employee=employee)
+        remaining_budget_flight = float(flight_budget.allocated_budget) * (0.2)
+        remaining_budget_travel = float(travel_budget.allocated_budget) * (0.2)
+        remaining_budget_ope = float(ope_budget.allocated_budget) * (0.2)
+
 
     except:
         pass
-    remaining_budget_flight = float(flight_budget.allocated_budget) * (0.2)
-    remaining_budget_travel = float(travel_budget.allocated_budget) * (0.2)
-    remaining_budget_ope = float(ope_budget.allocated_budget) * (0.2)
 
     context = {
         'employee': employee,
