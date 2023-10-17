@@ -90,7 +90,7 @@ def AdvancedTravelPlanView(request,pk):
         'atp' : atp,
         'emp' : emp
     }
-    print(atp)
+    
     return render(request,"advancedtravelplan.html",context)
 
 
