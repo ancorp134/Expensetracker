@@ -20,7 +20,7 @@
     <nav>
         <div class="logo-name">
             <div class="logo-image">
-                <!-- <img src="images/logo.png" alt=""> -->
+                <img src="{% static 'img/logo.png' %}" alt="">
             </div>
 
             <span class="logo_name">Inductus</span>
@@ -30,7 +30,7 @@
             <ul class="nav-links">
 
                 <li><a href="{% url 'employees' %}">
-                    <i class="uil uil-files-landscapes"></i>
+                    <i class="uil uil-bookmark-full"></i>
                     <span class="link-name">Employees</span>
                 </a></li>
 
@@ -39,11 +39,11 @@
                         <span class="link-name">Profile</span>
                     </a></li>
                     <li><a href="">
-                        <i class="uil uil-files-landscapes"></i>
+                        <i class="uil uil-plane"></i>
                         <span class="link-name">Advanced Travel Plan</span>
                     </a></li>
                     <li><a href="{%  url 'tp' emp.uuid %}">
-                        <i class="uil uil-files-landscapes"></i>
+                        <i class="uil uil-plane-fly"></i>
                         <span class="link-name">Actual Travel Plan</span>
                     </a></li>
             </ul>

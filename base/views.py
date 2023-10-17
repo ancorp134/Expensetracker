@@ -38,7 +38,7 @@ def EmployeeView(request):
     try:
         employees = Employee.objects.all()
         context = {
-            ''
+       
             'employees' : employees
         }
     except:
@@ -56,15 +56,12 @@ def EmployeeProfileView(request,pk):
     remaining_budget_travel = 0
     try:
         employee = Employee.objects.get(uuid=pk)
-        print(employee)
         flight_budget = FlightBudget.objects.get(employee=employee)
         travel_budget = TravelBudget.objects.get(employee=employee)
         ope_budget = OPEBudget.objects.get(employee=employee)
         remaining_budget_flight = float(flight_budget.allocated_budget) * (0.2)
         remaining_budget_travel = float(travel_budget.allocated_budget) * (0.2)
         remaining_budget_ope = float(ope_budget.allocated_budget) * (0.2)
-
-
     except:
         pass
 
@@ -83,7 +80,7 @@ def EmployeeProfileView(request,pk):
 def AdvancedTravelPlanView(request,pk):
     try:
         emp = Employee.objects.get(uuid=pk)
-        print(emp)
+        
         atp = AdvancedTravelPlan.objects.filter(employee=emp)
         
     except:
@@ -125,16 +122,16 @@ def ActualTravelPlan(request,pk):
         'tp' : tp,
         'emp' : emp
     }
-    print(tp)
+    
     return render(request,"actualtravelplan.html",context)
 
 @login_required(login_url='login')
 def ViewAtp(request,pk1,pk2):
     try:
         emp = Employee.objects.get(uuid=pk1)
-        print(emp)
+        
         tp = Expense.objects.get(uuid=pk2)
-        print(tp)
+        
 
     except:
         tp = None

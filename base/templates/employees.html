@@ -56,6 +56,12 @@
             {% endfor %}
         </div>
         <div class="data status">
+            <span class="data-title">State</span>
+            {% for employee in employ %}
+            <span class="data-list">{{employee.state}}</span>
+            {% endfor %}
+        </div>
+        <div class="data status">
             <span class="data-title">Duty Station</span>
             {% for employee in employ %}
             <span class="data-list">{{employee.duty_station}}</span>
@@ -71,6 +77,6 @@
         if (!searchQueryInput.value && !{{ employ|length }}) {
             searchForm.submit();
         }
-    });
+    })
     </script>
 {% endblock %}
