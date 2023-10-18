@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+import pymysql
+pymysql.install_as_MySQLdb()
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -83,6 +85,19 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'induc8vs_testing',
+#         'USER': 'induc8vs_testing',
+#         'PASSWORD': 'd7gWiZFa?@u@',
+#         'HOST':'localhost',
+#         'PORT':'4000',
+#     }
+# }
+
 
 
 
