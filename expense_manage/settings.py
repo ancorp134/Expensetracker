@@ -23,10 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = str(os.getenv('SECRET_KEY'))
-
+SECRET_KEY = 'django-insecure-4rMI49yG5ZIVdmg3Ufy55Z5cX0yyKzrMdxv2g=x2b2j-_gm@1n%9vk!zjqq64cj^'
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = str(os.getenv('DEBUG'))
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -147,6 +146,18 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+AWS_ACCESS_KEY_ID = 'AKIAWHJFVK77YIR4CHMF'
+AWS_SECRET_ACCESS_KEY = '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'
+AWS_STORAGE_BUCKET_NAME = 'inductuss3'
+AWS_S3_SIGNATURE_NAME = 's3v4',
+AWS_S3_REGION_NAME = 'us-east-1'
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL =  None
+AWS_S3_VERITY = True
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
 
 
 
