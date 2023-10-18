@@ -71,6 +71,7 @@ class Expense(models.Model):
     train_ticket = models.FileField(upload_to=get_upload_path, blank = True)
     train_return_ticket = models.FileField(upload_to=get_upload_path, blank = True)
     local_conveyance = models.DecimalField(decimal_places=2,default=0,max_digits = 10)
+    departure = models.CharField(max_length = 30,null = True)
     place_of_visit = models.CharField(max_length = 30,null = True)
     taxi_bill = models.DecimalField(max_digits=10, decimal_places=2,default = 0)
     taxi_bill_proof = models.FileField(upload_to=get_upload_path, blank = True)
@@ -103,11 +104,13 @@ def update_budgets(sender, instance, created, **kwargs):
         # Update TravelBudget
         travel_budget, _ = TravelBudget.objects.get_or_create(employee=employee)
         travel_budget.remaining_budget -= instance.travel_budget_used
+        travel_budget.remaining_budget -= instance.taxi_bill
         travel_budget.save()
 
         # Update OPEBudget
         ope_budget, _ = OPEBudget.objects.get_or_create(employee=employee)
         ope_budget.remaining_budget -= instance.ope_budget_used
+        ope_budget.remaining_budget -= instance.local_conveyance
         ope_budget.save()
 
 
