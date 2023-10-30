@@ -92,6 +92,8 @@ class TravelBudget(models.Model):
     to_date = models.DateField(null = True)
     remaining_budget = models.DecimalField(decimal_places=2,default = 0,max_digits = 10)
 
+    
+
 def update_budgets(sender, instance, created, **kwargs):
     if created:
         # If a new Expense object is created, update the budgets

@@ -76,6 +76,8 @@ def EmployeeProfileView(request,pk):
     }
     return render(request,"profile.html",context)
 
+
+
 @login_required(login_url='login')
 def AdvancedTravelPlanView(request,pk):
     try:

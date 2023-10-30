@@ -30,6 +30,7 @@ body{
     min-height: 100vh;
     background-color: var(--primary-color);
 }
+
 body.dark{
     --primary-color: #3A3B3C;
     --panel-color: #242526;
@@ -37,10 +38,11 @@ body.dark{
     --black-light-color: #CCC;
     --border-color: #4D4C4C;
     --toggle-color: #FFF;
-    --box1-color: #3A3B3C;
-    --box2-color: #3A3B3C;
-    --box3-color: #3A3B3C;
+    --box1-color: #4DA3FF;
+    --box2-color: #FFE6AC;
+    --box3-color: #E7D1FC;
     --title-icon-color: #CCC;
+    --box-text-color: black;
 }
 /* === Custom Scroll Bar CSS === */
 ::-webkit-scrollbar {
@@ -315,18 +317,18 @@ nav.close ~ .dashboard .top{
 }
 .boxes .box i{
     font-size: 35px;
-    color: var(--text-color);
+    color: var(--box-text-color);
 }
 .boxes .box .text{
     white-space: nowrap;
     font-size: 18px;
     font-weight: 500;
-    color: var(--text-color);
+    color: var(--box-text-color);
 }
 .boxes .box .number{
     font-size: 40px;
     font-weight: 500;
-    color: var(--text-color);
+    color: var(--box-text-color);
 }
 .boxes .box.box2{
     background-color: var(--box2-color);
@@ -498,9 +500,16 @@ nav.close ~ .dashboard .top{
 
 .download-btn{
    background-color: #0E4BF1;
+   border-color: #0b3cc1;
    padding: 5px;
-   border-radius: 9px 2px;
+   border-radius: 5px 5px;
+   transition: all .2s ease-in-out;
 }
+.download-btn:hover{
+    transform: scale(1.1);
+ }
+
+
 
 
 .download-btn:hover{
@@ -510,4 +519,16 @@ nav.close ~ .dashboard .top{
 .dash-content .boxes .box .red-card {
     background-color: red !important;
     color: white;
+}
+
+.data-list a{
+    text-decoration: none;
+    color: var(--text-color);
+    
+}
+
+.data-list a:hover{
+    text-decoration: underline;
+    color: #0E4BF1;
+    
 }
