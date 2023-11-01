@@ -122,6 +122,32 @@ def update_budgets(sender, instance, created, **kwargs):
         ope_budget.remaining_budget -= instance.local_conveyance
         ope_budget.save()
 
+        smtp_server = 'smtp.gmail.com'
+        smtp_port = 465  # The port number for SSL
+        smtp_username = 'inductus.un@gmail.com'
+        smtp_password = 'eqjzucqlyzwzvfxr'
+        with smtplib.SMTP_SSL(smtp_server, smtp_port) as smtp_conn:
+                
+                smtp_conn.login(smtp_username, smtp_password)
+                subject = f'Budget Utilization Alert for Employee: {employee.Emp_name}'
+                body = f'Employee {employee.Emp_name} has exceeded the 70% budget utilization threshold.'
+                sender_email = 'inductus.un@gmail.com'
+                recipient_email = 'brijesh.sharma@inductusgroup.com'
+
+                msg = MIMEMultipart()
+                msg['From'] = sender_email
+                msg['To'] = recipient_email
+                msg['Subject'] = subject
+                msg.attach(MIMEText(body, 'plain'))
+                flight_budget_utilization = (flight_budget.allocated_budget - flight_budget.remaining_budget) / flight_budget.allocated_budget
+                travel_budget_utilization = (travel_budget.allocated_budget - travel_budget.remaining_budget) / travel_budget.allocated_budget
+                ope_budget_utilization = (ope_budget.allocated_budget - ope_budget.remaining_budget) / ope_budget.allocated_budget
+
+                if (flight_budget_utilization >= 0.7 or travel_budget_utilization >= 0.7 or ope_budget_utilization >= 0.7):
+                   
+
+                    smtp_conn.sendmail(sender_email, [recipient_email], msg.as_string())
+
 
 post_save.connect(update_budgets, sender=Expense)
 
@@ -151,6 +177,34 @@ def update_budgets_on_expense_change(sender, instance, **kwargs):
         ope_budget.remaining_budget -= instance.ope_budget_used
         ope_budget.remaining_budget -= instance.local_conveyance
         ope_budget.save()
+
+
+        smtp_server = 'smtp.gmail.com'
+        smtp_port = 465  # The port number for SSL
+        smtp_username = 'inductus.un@gmail.com'
+        smtp_password = 'eqjzucqlyzwzvfxr'
+        with smtplib.SMTP_SSL(smtp_server, smtp_port) as smtp_conn:
+                
+                smtp_conn.login(smtp_username, smtp_password)
+                subject = f'Budget Utilization Alert for Employee: {employee.Emp_name}'
+                body = f'Employee {employee.Emp_name} has exceeded the 70% budget utilization threshold.'
+                sender_email = 'inductus.un@gmail.com'
+                recipient_email = 'brijesh.sharma@inductusgroup.com'
+
+                msg = MIMEMultipart()
+                msg['From'] = sender_email
+                msg['To'] = recipient_email
+                msg['Subject'] = subject
+                msg.attach(MIMEText(body, 'plain'))
+                flight_budget_utilization = (flight_budget.allocated_budget - flight_budget.remaining_budget) / flight_budget.allocated_budget
+                travel_budget_utilization = (travel_budget.allocated_budget - travel_budget.remaining_budget) / travel_budget.allocated_budget
+                ope_budget_utilization = (ope_budget.allocated_budget - ope_budget.remaining_budget) / ope_budget.allocated_budget
+
+                if (flight_budget_utilization >= 0.7 or travel_budget_utilization >= 0.7 or ope_budget_utilization >= 0.7):
+                   
+
+                    smtp_conn.sendmail(sender_email, [recipient_email], msg.as_string())
+
     else:
         try:
             original_expense = Expense.objects.get(pk=instance.pk)
