@@ -8,7 +8,7 @@ from .models import *
 
 
 class EmployeeAdmin(admin.ModelAdmin):
-    list_display = ("Emp_name","email","contract_no","contract_start_date","contract_start_date")
+    list_display = ("Emp_name","email","contract_no","contract_start_date","contract_end_date")
     search_fields = ['Emp_name','contract_no']
 
 class AdvancedTravelPlanAdmin(admin.ModelAdmin):
