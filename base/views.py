@@ -46,35 +46,31 @@ def EmployeeView(request):
     return render(request,'employees.html',context)
 
 @login_required(login_url='login')
-def EmployeeProfileView(request,pk):
-    flight_budget=0
-    travel_budget=0
-    ope_budget=0
-    employee=0
-    remaining_budget_flight = 0
-    remaining_budget_ope =0
-    remaining_budget_travel = 0
+def EmployeeProfileView(request, pk):
     try:
         employee = Employee.objects.get(uuid=pk)
-        flight_budget = FlightBudget.objects.get(employee=employee)
-        travel_budget = TravelBudget.objects.get(employee=employee)
-        ope_budget = OPEBudget.objects.get(employee=employee)
-        remaining_budget_flight = float(flight_budget.allocated_budget) * (0.2)
-        remaining_budget_travel = float(travel_budget.allocated_budget) * (0.2)
-        remaining_budget_ope = float(ope_budget.allocated_budget) * (0.2)
-    except:
-        pass
+        flight_budget, _ = FlightBudget.objects.get_or_create(employee=employee)
+        travel_budget, _ = TravelBudget.objects.get_or_create(employee=employee)
+        ope_budget, _ = OPEBudget.objects.get_or_create(employee=employee)
+        remaining_budget_flight = float(flight_budget.allocated_budget) * 0.2
+        remaining_budget_travel = float(travel_budget.allocated_budget) * 0.2
+        remaining_budget_ope = float(ope_budget.allocated_budget) * 0.2
+    except Employee.DoesNotExist:
+        employee = None
+        remaining_budget_flight = 0
+        remaining_budget_travel = 0
+        remaining_budget_ope = 0
 
     context = {
         'employee': employee,
-        'flight_budget' : flight_budget,
-        'travel_budget' : travel_budget,
-        'ope_budget' : ope_budget,
-        'remaining_budget_flight':remaining_budget_flight,
-        'remaining_budget_travel':remaining_budget_travel,
-        'remaining_budget_ope':remaining_budget_ope,
+        'flight_budget': flight_budget,
+        'travel_budget': travel_budget,
+        'ope_budget': ope_budget,
+        'remaining_budget_flight': remaining_budget_flight,
+        'remaining_budget_travel': remaining_budget_travel,
+        'remaining_budget_ope': remaining_budget_ope,
     }
-    return render(request,"profile.html",context)
+    return render(request, "profile.html", context)
 
 
 

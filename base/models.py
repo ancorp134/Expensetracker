@@ -6,8 +6,6 @@ from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from django.db import transaction
 from django.core.exceptions import ObjectDoesNotExist
-from django.conf import settings
-from django.core.mail import send_mail
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
@@ -106,30 +104,27 @@ def update_budgets(sender, instance, created, **kwargs):
         # If a new Expense object is created, update the budgets
         employee = instance.employee
 
+        # Update FlightBudget for new expenses
         flight_budget, _ = FlightBudget.objects.get_or_create(employee=employee)
         flight_budget.remaining_budget -= instance.flight_budget_used
         flight_budget.save()
 
-        # Update TravelBudget
+        # Update TravelBudget for new expenses
         travel_budget, _ = TravelBudget.objects.get_or_create(employee=employee)
         travel_budget.remaining_budget -= instance.travel_budget_used
         travel_budget.remaining_budget -= instance.taxi_bill
         travel_budget.save()
 
-        # Update OPEBudget
+        # Update OPEBudget for new expenses
         ope_budget, _ = OPEBudget.objects.get_or_create(employee=employee)
         ope_budget.remaining_budget -= instance.ope_budget_used
         ope_budget.remaining_budget -= instance.local_conveyance
         ope_budget.save()
 
-        
-
+        # Check for budget utilization threshold and send email if needed
+        check_and_send_email(employee)
 
 post_save.connect(update_budgets, sender=Expense)
-
-
-
-
 
 @receiver(pre_save, sender=Expense)
 def update_budgets_on_expense_change(sender, instance, **kwargs):
@@ -154,9 +149,8 @@ def update_budgets_on_expense_change(sender, instance, **kwargs):
         ope_budget.remaining_budget -= instance.local_conveyance
         ope_budget.save()
 
-
-        
-
+        # Check for budget utilization threshold and send email if needed
+        check_and_send_email(employee)
     else:
         try:
             original_expense = Expense.objects.get(pk=instance.pk)
@@ -188,46 +182,47 @@ def update_budgets_on_expense_change(sender, instance, **kwargs):
             ope_budget.remaining_budget += diff_local_con
             ope_budget.save()
 
-
-
-            
-            # You can calculate utilization percentages and send emails here as well if needed
-            smtp_server = 'smtp.gmail.com'
-            smtp_port = 465  # The port number for SSL
-            smtp_username = 'inductus.un@gmail.com'
-            smtp_password = 'eqjzucqlyzwzvfxr'
-            with smtplib.SMTP_SSL(smtp_server, smtp_port) as smtp_conn:
-    # Log in to your email account
-                smtp_conn.login(smtp_username, smtp_password)
-
-    # Create an email message
-                subject = f'Budget Utilization Alert for Employee: {employee.Emp_name}'
-                body = f'Employee {employee.Emp_name} has exceeded the 70% budget utilization threshold.'
-                sender_email = 'inductus.un@gmail.com'
-                recipient_email = 'brijesh.sharma@inductusgroup.com'
-
-                msg = MIMEMultipart()
-                msg['From'] = sender_email
-                msg['To'] = recipient_email
-                msg['Subject'] = subject
-                msg.attach(MIMEText(body, 'plain'))
-
-    # Send the email
-    
-
-
-                flight_budget_utilization = (flight_budget.allocated_budget - flight_budget.remaining_budget) / flight_budget.allocated_budget
-                travel_budget_utilization = (travel_budget.allocated_budget - travel_budget.remaining_budget) / travel_budget.allocated_budget
-                ope_budget_utilization = (ope_budget.allocated_budget - ope_budget.remaining_budget) / ope_budget.allocated_budget
-
-                if (flight_budget_utilization >= 0.7 or travel_budget_utilization >= 0.7 or ope_budget_utilization >= 0.7):
-                   
-
-                    smtp_conn.sendmail(sender_email, [recipient_email], msg.as_string())
+            # Check for budget utilization threshold and send email if needed
+            check_and_send_email(employee)
 
         except ObjectDoesNotExist:
             # Handle the case where the original expense does not exist
             pass
+
+def check_and_send_email(employee):
+    # Calculate budget utilization percentages
+    flight_budget = FlightBudget.objects.get(employee=employee)
+    travel_budget = TravelBudget.objects.get(employee=employee)
+    ope_budget = OPEBudget.objects.get(employee=employee)
+    
+    flight_budget_utilization = (flight_budget.allocated_budget - flight_budget.remaining_budget) / flight_budget.allocated_budget if flight_budget.allocated_budget != 0 else 0
+    travel_budget_utilization = (travel_budget.allocated_budget - travel_budget.remaining_budget) / travel_budget.allocated_budget if travel_budget.allocated_budget != 0 else 0
+    ope_budget_utilization = (ope_budget.allocated_budget - ope_budget.remaining_budget) / ope_budget.allocated_budget if ope_budget.allocated_budget != 0 else 0
+
+    # Send an email if any of the budget utilizations exceed 70%
+    if flight_budget_utilization >= 0.7 or travel_budget_utilization >= 0.7 or ope_budget_utilization >= 0.7:
+        smtp_server = 'smtp.gmail.com'
+        smtp_port = 465  # The port number for SSL
+        smtp_username = 'inductus.un@gmail.com'
+        smtp_password = 'eqjzucqlyzwzvfxr'
+        with smtplib.SMTP_SSL(smtp_server, smtp_port) as smtp_conn:
+            # Log in to your email account
+            smtp_conn.login(smtp_username, smtp_password)
+
+            # Create an email message
+            subject = f'Budget Utilization Alert for Employee: {employee.Emp_name}'
+            body = f'Employee {employee.Emp_name} has exceeded the 70% budget utilization threshold.'
+            sender_email = 'inductus.un@gmail.com'
+            recipient_email = 'ancorp007@gmail.com'
+
+            msg = MIMEMultipart()
+            msg['From'] = sender_email
+            msg['To'] = recipient_email
+            msg['Subject'] = subject
+            msg.attach(MIMEText(body, 'plain'))
+
+            # Send the email
+            smtp_conn.sendmail(sender_email, [recipient_email], msg.as_string())
 
 pre_save.connect(update_budgets_on_expense_change, sender=Expense)
 
