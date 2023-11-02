@@ -128,66 +128,44 @@ post_save.connect(update_budgets, sender=Expense)
 
 @receiver(pre_save, sender=Expense)
 def update_budgets_on_expense_change(sender, instance, **kwargs):
+
     # Check if the instance is being created (it doesn't have a primary key yet)
-    if instance._state.adding:
-        employee = instance.employee
-
-        # Update FlightBudget for new expenses
-        flight_budget, _ = FlightBudget.objects.get_or_create(employee=employee)
-        flight_budget.remaining_budget -= instance.flight_budget_used
-        flight_budget.save()
-
-        # Update TravelBudget for new expenses
-        travel_budget, _ = TravelBudget.objects.get_or_create(employee=employee)
-        travel_budget.remaining_budget -= instance.travel_budget_used
-        travel_budget.remaining_budget -= instance.taxi_bill
-        travel_budget.save()
-
-        # Update OPEBudget for new expenses
-        ope_budget, _ = OPEBudget.objects.get_or_create(employee=employee)
-        ope_budget.remaining_budget -= instance.ope_budget_used
-        ope_budget.remaining_budget -= instance.local_conveyance
-        ope_budget.save()
-
-        # Check for budget utilization threshold and send email if needed
-        check_and_send_email(employee)
-    else:
-        try:
-            original_expense = Expense.objects.get(pk=instance.pk)
+    try:
+        original_expense = Expense.objects.get(pk=instance.pk)
 
             # Calculate the difference between the original and new expense amount
-            diff_flight = original_expense.flight_budget_used - instance.flight_budget_used
-            diff_travel = original_expense.travel_budget_used - instance.travel_budget_used
-            diff_ope = original_expense.ope_budget_used - instance.ope_budget_used
-            diff_local_con = original_expense.local_conveyance - instance.local_conveyance
-            diff_taxi_bill = original_expense.taxi_bill - instance.taxi_bill
+        diff_flight = original_expense.flight_budget_used - instance.flight_budget_used
+        diff_travel = original_expense.travel_budget_used - instance.travel_budget_used
+        diff_ope = original_expense.ope_budget_used - instance.ope_budget_used
+        diff_local_con = original_expense.local_conveyance - instance.local_conveyance
+        diff_taxi_bill = original_expense.taxi_bill - instance.taxi_bill
 
             # Update the budget based on the difference
-            employee = instance.employee
+        employee = instance.employee
 
             # Update FlightBudget for updated expenses
-            flight_budget, _ = FlightBudget.objects.get_or_create(employee=employee)
-            flight_budget.remaining_budget += diff_flight
-            flight_budget.save()
+        flight_budget, _ = FlightBudget.objects.get_or_create(employee=employee)
+        flight_budget.remaining_budget += diff_flight
+        flight_budget.save()
 
             # Similar updates for TravelBudget and OPEBudget
-            travel_budget, _ = TravelBudget.objects.get_or_create(employee=employee)
-            travel_budget.remaining_budget += diff_travel
-            travel_budget.remaining_budget += diff_taxi_bill
-            travel_budget.save()
+        travel_budget, _ = TravelBudget.objects.get_or_create(employee=employee)
+        travel_budget.remaining_budget += diff_travel
+        travel_budget.remaining_budget += diff_taxi_bill
+        travel_budget.save()
 
             # Update OPEBudget for updated expenses
-            ope_budget, _ = OPEBudget.objects.get_or_create(employee=employee)
-            ope_budget.remaining_budget += diff_ope
-            ope_budget.remaining_budget += diff_local_con
-            ope_budget.save()
+        ope_budget, _ = OPEBudget.objects.get_or_create(employee=employee)
+        ope_budget.remaining_budget += diff_ope
+        ope_budget.remaining_budget += diff_local_con
+        ope_budget.save()
 
             # Check for budget utilization threshold and send email if needed
-            check_and_send_email(employee)
+        check_and_send_email(employee)
 
-        except ObjectDoesNotExist:
-            # Handle the case where the original expense does not exist
-            pass
+    except ObjectDoesNotExist:
+        pass
+        
 
 def check_and_send_email(employee):
     # Calculate budget utilization percentages
