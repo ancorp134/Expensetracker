@@ -2,9 +2,8 @@ from django.db import models
 import uuid
 import os
 from django.db.models.signals import post_save
-from django.db.models.signals import pre_save
+from django.db.models.signals import pre_save , pre_delete
 from django.dispatch import receiver
-from django.db import transaction
 from django.core.exceptions import ObjectDoesNotExist
 import smtplib
 from email.mime.text import MIMEText
@@ -191,7 +190,7 @@ def check_and_send_email(employee):
             subject = f'Budget Utilization Alert for Employee: {employee.Emp_name}'
             body = f'Employee {employee.Emp_name} has exceeded the 70% budget utilization threshold.'
             sender_email = 'inductus.un@gmail.com'
-            recipient_email = 'ancorp007@gmail.com'
+            recipient_email = 'brijesh.sharma@inductusgroup.com'
 
             msg = MIMEMultipart()
             msg['From'] = sender_email
@@ -205,3 +204,28 @@ def check_and_send_email(employee):
 pre_save.connect(update_budgets_on_expense_change, sender=Expense)
 
 
+@receiver(pre_delete, sender=Expense)
+def update_budgets_on_expense_deletion(sender, instance, **kwargs):
+    employee = instance.employee
+
+    # Update FlightBudget for deleted expenses
+    flight_budget, _ = FlightBudget.objects.get_or_create(employee=employee)
+    flight_budget.remaining_budget += instance.flight_budget_used
+    flight_budget.save()
+
+    # Similar updates for TravelBudget and OPEBudget
+    travel_budget, _ = TravelBudget.objects.get_or_create(employee=employee)
+    travel_budget.remaining_budget += instance.travel_budget_used
+    travel_budget.remaining_budget += instance.taxi_bill
+    travel_budget.save()
+
+    ope_budget, _ = OPEBudget.objects.get_or_create(employee=employee)
+    ope_budget.remaining_budget += instance.ope_budget_used
+    ope_budget.remaining_budget += instance.local_conveyance
+    ope_budget.save()
+
+    # Check for budget utilization threshold and send email if needed
+    check_and_send_email(employee)
+
+# Connect the pre_delete signal to the update_budgets_on_expense_deletion function
+pre_delete.connect(update_budgets_on_expense_deletion, sender=Expense)
