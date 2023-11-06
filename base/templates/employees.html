@@ -4,79 +4,62 @@
 
 {% block start %}
 
-
-
 <div class="activity">
     <div class="emp-title">
-        <div class = "title-wrapper">
-        <i class="uil uil-bookmark"></i>
-        <span class="text">Employees</span>
-    </div>
-        <form id = "search-form" method = 'get' action = "/search">
-        <div class="search-box">
-            <i class="uil uil-search"></i>
-            <input name = "search_query" type="text" value = "{{search_query}}"placeholder="Search Employee...">
-            <button type = submit style = "  background-color: #04AA6D;
-            border: none;
-            color: white;
-            padding:8px;
-            margin-left:5px;
-            border-radius: 9px 2px;
-            background-color: #0E4BF1;
-            
-          ">Search</button>
+        <div class="title-wrapper">
+            <i class="uil uil-bookmark"></i>
+            <span class="text">Employees</span>
         </div>
-    </form>
-    </div>
-    
-    
-        <div class="activity-data">
-        <div class="data names">
-            <span class="data-title">Employee Name</span>
-            {% for employee in employ %}
-            <span class="data-list"><a href="{% url 'employee' employee.uuid %}">{{employee.Emp_name}}</a></span>
-            {% endfor %}
-        </div>
-        <div class="data email">
-            <span class="data-title">Contract No.</span>
-            {% for employee in employ %}
-            <span class="data-list">{{employee.contract_no}}</span>
-            {% endfor %}
-        </div>
-        <div class="data joined">
-            <span class="data-title">Start</span>
-            {% for employee in employ %}
-            <span class="data-list">{{employee.contract_start_date}}</span>
-            {% endfor %}
-        </div>
-        <div class="data type">
-            <span class="data-title">End</span>
-            {% for employee in employ %}
-            <span class="data-list">{{employee.contract_end_date}}</span>
-            {% endfor %}
-        </div>
-        <div class="data status">
-            <span class="data-title">State</span>
-            {% for employee in employ %}
-            <span class="data-list">{{employee.state}}</span>
-            {% endfor %}
-        </div>
-        <div class="data status">
-            <span class="data-title">Duty Station</span>
-            {% for employee in employ %}
-            <span class="data-list">{{employee.duty_station}}</span>
-            {% endfor %}
-        </div>
+        <form id="search-form" method='get' action="">
+            <div class="search-box">
+                <i class="uil uil-search"></i>
+                <input name="search_query" type="text" value="{{ search_query }}" placeholder="Search Employee...">
+                <button type="submit" style="background-color: #04AA6D;
+                        border: none;
+                        color: white;
+                        padding: 8px;
+                        margin-left: 5px;
+                        border-radius: 9px 2px;
+                        background-color: #0E4BF1;">Search
+                </button>
+            </div>
+        </form>
     </div>
 
-    <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const searchForm = document.getElementById("search-form");
-        const searchQueryInput = searchForm.querySelector("input[name='search_query']");
-        
-        if (!searchQueryInput.value && !{{ employ|length }}) {
-            searchForm.submit();
-        }
-    })
-    </script>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">Contract No.</th>
+                <th scope="col">Full Name</th>
+                <th scope="col">Start Date</th>
+                <th scope="col">End Date</th>
+                <th scope="col">State</th>
+                <th scope="col">Duty Station</th>
+                <th scope="col">View Profile</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for employee in employees %}
+            <tr>
+                <th scope="row">{{ employee.contract_no }}</th>
+                <td>{{ employee.Emp_name }}</td>
+                <td>{{ employee.contract_start_date }}</td>
+                <td>{{ employee.contract_end_date }}</td>
+                <td>{{ employee.state }}</td>
+                <td>{{ employee.duty_station }}</td>
+                <td>
+                    <button type="button" class="btn btn-primary">
+                        <a href="{% url 'employee' employee.uuid %}" style="text-decoration: none; color: white;">View</a>
+                    </button>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="7">No employees found</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
 {% endblock %}

@@ -190,7 +190,7 @@ def check_and_send_email(employee):
             subject = f'Budget Utilization Alert for Employee: {employee.Emp_name}'
             body = f'Employee {employee.Emp_name} has exceeded the 70% budget utilization threshold.'
             sender_email = 'inductus.un@gmail.com'
-            recipient_email = 'brijesh.sharma@inductusgroup.com'
+            recipient_email = 'brijesh.sharma@inductusgroup.com','ancorp007@gmail.com'
 
             msg = MIMEMultipart()
             msg['From'] = sender_email

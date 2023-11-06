@@ -35,15 +35,26 @@ def logoutview(request):
 
 @login_required(login_url='login')
 def EmployeeView(request):
-    try:
-        employees = Employee.objects.all()
-        context = {
-       
-            'employees' : employees
-        }
-    except:
-        pass
-    return render(request,'employees.html',context)
+    search_query = request.GET.get('search_query', '')
+    employees = Employee.objects.all()
+
+    if search_query:
+        employees = employees.filter(
+            Q(Emp_name__icontains=search_query) |  # Search by employee name
+            Q(contract_no__icontains=search_query) |  # Search by contract number
+            Q(contract_start_date__icontains=search_query) |  # Search by start date
+            Q(contract_end_date__icontains=search_query) |  # Search by end date
+            Q(state__icontains=search_query) |  # Search by state
+            Q(duty_station__icontains=search_query)  # Search by duty station
+        )
+
+    context = {
+        'employees': employees,
+        'search_query': search_query,
+    }
+    return render(request, 'employees.html', context)
+
+
 
 @login_required(login_url='login')
 def EmployeeProfileView(request, pk):

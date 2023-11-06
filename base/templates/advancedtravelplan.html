@@ -1,4 +1,3 @@
-
 {% load static %}
 
 
@@ -13,6 +12,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'style.css' %}">
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
     <title>{{emp.Emp_name}} Profile</title>
 </head>
@@ -31,19 +32,19 @@
             <ul class="nav-links">
 
                 <li><a href="{% url 'employees' %}">
-                    <i class="uil uil-bookmark-full"></i>
-                    <span class="link-name">Employees</span>
-                </a></li>
+                        <i class="uil uil-bookmark-full"></i>
+                        <span class="link-name">Employees</span>
+                    </a></li>
 
                 <li><a href="{% url 'employee' emp.uuid %}" target="_self">
                         <i class="uil uil-files-landscapes"></i>
                         <span class="link-name">Profile</span>
                     </a></li>
-                    <li><a href="">
+                <li><a href="">
                         <i class="uil uil-plane"></i>
                         <span class="link-name">Advanced Travel Plan</span>
                     </a></li>
-                    <li><a href="{%  url 'tp' emp.uuid %}">
+                <li><a href="{%  url 'tp' emp.uuid %}">
                         <i class="uil uil-plane-fly"></i>
                         <span class="link-name">Actual Travel Plan</span>
                     </a></li>
@@ -80,15 +81,15 @@
             <div class="overview">
                 <div class="activity">
                     <div class="emp-title">
-                        <div class = "title-wrapper">
-                        <i class="uil uil-plane-departure"></i>
-                        <span class="text">Advanced Travel Plans</span>
+                        <div class="title-wrapper">
+                            <i class="uil uil-plane-departure"></i>
+                            <span class="text">Advanced Travel Plans</span>
+                        </div>
+
+
                     </div>
-                
-                        
-                    </div>
-                    
-                    <div class="activity-data">
+
+                    <!-- <div class="activity-data">
                         <div class="data names">
                             <span class="data-title">Month</span>
                            
@@ -118,12 +119,48 @@
                             
                         </div>
                         
-                    </div>
-                
-                    
-                    
-                    </div>
-                
+                    </div> -->
+
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th scope="col">Month</th>
+                                <th scope="col">Year</th>
+                                <th scope="col">Date Added</th>
+                                <th scope="col">Travel Plan</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            {% if atp %}
+                            {% for atp in atp %}
+                            <tr>
+                                <td>{{ atp.month }}</td>
+                                <td>{{ atp.year }}</td>
+                                <td>{{ atp.date_added }}</td>
+                                <td>
+                                    <button type="button" class="btn btn-primary">
+                                        <a href="{{ atp.trip_plan.url }}"
+                                            style="text-decoration: none; color: white;">Download</a>
+                                    </button>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            {% else %}
+                            <tr>
+                                <td colspan="4">No Advanced Travel Plan is found</td>
+                            </tr>
+                            {% endif %}
+
+
+
+                        </tbody>
+                    </table>
+
+
+                </div>
+
             </div>
     </section>
 
@@ -131,21 +168,3 @@
 </body>
 
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
