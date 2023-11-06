@@ -77,8 +77,8 @@ class Expense(models.Model):
     local_conveyance = models.DecimalField(decimal_places=2,default=0,max_digits = 10)
     departure = models.CharField(max_length = 30,null = True)
     place_of_visit = models.CharField(max_length = 30,null = True)
-    taxi_bill = models.DecimalField(max_digits=10, decimal_places=2,default = 0)
-    taxi_bill_proof = models.FileField(upload_to=get_upload_path, blank = True)
+    # taxi_bill = models.DecimalField(max_digits=10, decimal_places=2,default = 0)
+    # taxi_bill_proof = models.FileField(upload_to=get_upload_path, blank = True)
 
 class OPEBudget(models.Model):
     uuid = models.UUIDField(default = uuid.uuid4,primary_key=True,editable=False)
@@ -111,7 +111,7 @@ def update_budgets(sender, instance, created, **kwargs):
         # Update TravelBudget for new expenses
         travel_budget, _ = TravelBudget.objects.get_or_create(employee=employee)
         travel_budget.remaining_budget -= instance.travel_budget_used
-        travel_budget.remaining_budget -= instance.taxi_bill
+        # travel_budget.remaining_budget -= instance.taxi_bill
         travel_budget.save()
 
         # Update OPEBudget for new expenses
@@ -137,7 +137,7 @@ def update_budgets_on_expense_change(sender, instance, **kwargs):
         diff_travel = original_expense.travel_budget_used - instance.travel_budget_used
         diff_ope = original_expense.ope_budget_used - instance.ope_budget_used
         diff_local_con = original_expense.local_conveyance - instance.local_conveyance
-        diff_taxi_bill = original_expense.taxi_bill - instance.taxi_bill
+        # diff_taxi_bill = original_expense.taxi_bill - instance.taxi_bill
 
             # Update the budget based on the difference
         employee = instance.employee
@@ -150,7 +150,7 @@ def update_budgets_on_expense_change(sender, instance, **kwargs):
             # Similar updates for TravelBudget and OPEBudget
         travel_budget, _ = TravelBudget.objects.get_or_create(employee=employee)
         travel_budget.remaining_budget += diff_travel
-        travel_budget.remaining_budget += diff_taxi_bill
+        # travel_budget.remaining_budget += diff_taxi_bill
         travel_budget.save()
 
             # Update OPEBudget for updated expenses
@@ -216,7 +216,7 @@ def update_budgets_on_expense_deletion(sender, instance, **kwargs):
     # Similar updates for TravelBudget and OPEBudget
     travel_budget, _ = TravelBudget.objects.get_or_create(employee=employee)
     travel_budget.remaining_budget += instance.travel_budget_used
-    travel_budget.remaining_budget += instance.taxi_bill
+    # travel_budget.remaining_budget += instance.taxi_bill
     travel_budget.save()
 
     ope_budget, _ = OPEBudget.objects.get_or_create(employee=employee)
