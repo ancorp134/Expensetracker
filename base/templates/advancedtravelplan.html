@@ -85,46 +85,33 @@
                             <i class="uil uil-plane-departure"></i>
                             <span class="text">Advanced Travel Plans</span>
                         </div>
+                        <form id="search-form" method='get' action="{% url 'atp' emp.uuid %}">
+                            <div class="search-box">
+                                <i class="uil uil-search"></i>
+                                <input name="search_query" type="text" value="{{ search_query }}"
+                                    placeholder="Search travel Plan...">
+                                <button type="submit" style="background-color: #04AA6D;
+                                        border: none;
+                                        color: white;
+                                        padding: 8px;
+                                        margin-left: 5px;
+                                        border-radius: 9px 2px;
+                                        background-color: #0E4BF1;">Search
+                                </button>
 
+                            </div>
+
+
+                        </form>
 
                     </div>
 
-                    <!-- <div class="activity-data">
-                        <div class="data names">
-                            <span class="data-title">Month</span>
-                           
-                           {% for atp in atp %}
-                           <span class="data-list">{{atp.month}}</span> 
-                           {% endfor %}
-                           
-                        </div>
-                        <div class="data email">
-                            <span class="data-title">Year</span>
-                            {% for atp in atp %}
-                           <span class="data-list">{{atp.year}}</span> 
-                           {% endfor %}
-                        </div>
-                        <div class="data joined">
-                            <span class="data-title">Date Added</span>
-                            {% for atp in atp %}
-                            <span class="data-list">{{atp.date_added}}</span> 
-                            {% endfor %}
-                        </div>
-                        <div class="data type">
-                            <span class="data-title">Travel Plan</span>
-                            {% for atp in atp %}
-                        <span class="data-list"><button class="download-btn"><a href="{{atp.trip_plan.url}}" style="text-decoration:none; color: white;" >Download</a></button></span>
-                            {% endfor %}
-                            
-                            
-                        </div>
-                        
-                    </div> -->
+
 
                     <table class="table table-bordered">
                         <thead>
                             <tr>
-                                <th scope="col">Month</th>
+                                <th scope="col" > <span class="data-title">Month</span></th>
                                 <th scope="col">Year</th>
                                 <th scope="col">Date Added</th>
                                 <th scope="col">Travel Plan</th>

@@ -1,4 +1,3 @@
-
 {% load static %}
 
 
@@ -30,19 +29,19 @@
         <div class="menu-items">
             <ul class="nav-links">
                 <li><a href="{% url 'employees' %}">
-                    <i class="uil uil-bookmark"></i>
-                    <span class="link-name">Employees</span>
-                </a></li>
+                        <i class="uil uil-bookmark"></i>
+                        <span class="link-name">Employees</span>
+                    </a></li>
 
                 <li><a href="" target="_self">
                         <i class="uil uil-files-landscapes"></i>
                         <span class="link-name">Profile</span>
                     </a></li>
-                    <li><a href="{% url 'atp' employee.uuid %}">
+                <li><a href="{% url 'atp' employee.uuid %}">
                         <i class="uil uil-plane"></i>
                         <span class="link-name">Advanced Travel Plan</span>
                     </a></li>
-                    <li><a href="{%  url 'tp' employee.uuid %}">
+                <li><a href="{%  url 'tp' employee.uuid %}">
                         <i class="uil uil-plane-fly"></i>
                         <span class="link-name">Actual Travel Plan</span>
                     </a></li>
@@ -61,7 +60,7 @@
                     </a>
 
                     <div class="mode-toggle">
-                        <span class="switch"></span>
+                        <span class="switch" style="color: black;"></span>
                     </div>
                 </li>
             </ul>
@@ -82,13 +81,13 @@
                         <i class="uil uil-tachometer-fast-alt"></i>
                         <span class="text">{{employee.Emp_name}}</span>
                     </div>
-                    
+
 
                     <div class="boxes">
                         <div class="box box1">
                             <i class="uil uil-money-bill"></i>
                             <span class="text">Travel Budget Allocated</span>
-                            {% if travel_budget == 0  %}
+                            {% if travel_budget == 0 %}
                             <span class="number">₹ 0</span>
                             {% else %}
                             <span class="number">₹ {{travel_budget.allocated_budget}}</span>
@@ -98,7 +97,7 @@
                         <div class="box box2">
                             <i class="uil uil-money-bill"></i>
                             <span class="text">Flight Allocated Budget</span>
-                            {% if flight_budget == 0  %}
+                            {% if flight_budget == 0 %}
                             <span class="number">₹ 0</span>
 
                             {% else %}
@@ -110,7 +109,7 @@
                         <div class="box box3">
                             <i class="uil uil-money-bill"></i>
                             <span class="text">OPE Allocated Budget</span>
-                            {% if ope_budget == 0  %}
+                            {% if ope_budget == 0 %}
                             <span class="number">₹ 0</span>
 
                             {% else %}
@@ -119,109 +118,107 @@
                             {% endif %}
 
 
-                           
+
                         </div>
                     </div>
 
-<br>
+                    <br>
 
 
 
                     <div class="boxes">
-                        {% if travel_budget.remaining_budget <= remaining_budget_travel %}
-                        <div class="box box1" style="background-color: red;">
+                        {% if travel_budget.remaining_budget <= remaining_budget_travel %} <div class="box box1"
+                            style="background-color: red;">
                             <i class="uil uil-money-bill"></i>
                             <span class="text">Travel Budget Remaining</span>
-                            {% if travel_budget == 0  %}
+                            {% if travel_budget == 0 %}
                             <span class="number">₹ 0</span>
                             {% else %}
-                                
+
                             <span class="number">₹ {{travel_budget.remaining_budget}}</span>
                             {% endif %}
-                        </div>
+                    </div>
+                    {% else %}
+                    <div class="box box1">
+                        <i class="uil uil-money-bill"></i>
+                        <span class="text">Travel Budget Remaining </span>
+                        {% if travel_budget == 0 %}
+                        <span class="number">₹ 0</span>
                         {% else %}
-                        <div class="box box1">
-                            <i class="uil uil-money-bill"></i>
-                            <span class="text">Travel Budget Remaining </span>
-                            {% if travel_budget == 0  %}
-                            <span class="number">₹ 0</span>
-                            {% else %}
-                                
-                            <span class="number">₹ {{travel_budget.remaining_budget}}</span>
-                            {% endif %}
-                        </div>
+
+                        <span class="number">₹ {{travel_budget.remaining_budget}}</span>
                         {% endif %}
+                    </div>
+                    {% endif %}
 
-                        {% if flight_budget.remaining_budget <= remaining_budget_flight %}
-                        <div class="box box2" style="background-color: red;">
-                            <i class="uil uil-money-bill"></i>
-                            <span class="text">Flight Budget Remaining </span>
-                            {% if flight_budget == 0  %}
-                            <span class="number">₹ 0</span>
-                            {% else %}
-                                
-                            <span class="number">₹ {{flight_budget.remaining_budget}}</span>
-                            {% endif %}
-                        </div>
+                    {% if flight_budget.remaining_budget <= remaining_budget_flight %} <div class="box box2"
+                        style="background-color: red;">
+                        <i class="uil uil-money-bill"></i>
+                        <span class="text">Flight Budget Remaining </span>
+                        {% if flight_budget == 0 %}
+                        <span class="number">₹ 0</span>
                         {% else %}
-                        <div class="box box2">
-                            <i class="uil uil-money-bill"></i>
-                            <span class="text">Flight Budget Remaining </span>
-                            {% if flight_budget == 0  %}
-                            <span class="number">₹ 0</span>
-                            {% else %}
-                                
-                            <span class="number">₹ {{flight_budget.remaining_budget}}</span>
-                            {% endif %}
-                        </div>
+
+                        <span class="number">₹ {{flight_budget.remaining_budget}}</span>
                         {% endif %}
-                        
+                </div>
+                {% else %}
+                <div class="box box2">
+                    <i class="uil uil-money-bill"></i>
+                    <span class="text">Flight Budget Remaining </span>
+                    {% if flight_budget == 0 %}
+                    <span class="number">₹ 0</span>
+                    {% else %}
 
-                        {% if ope_budget.remaining_budget <= remaining_budget_ope %}
-                        <div class="box box3" style="background-color: red;">
-                            <i class="uil uil-money-bill"></i>
-                            <span class="text">OPE Budget Remaining</span>
-                            {% if ope_budget == 0  %}
-                            <span class="number">₹ 0</span>
-                            {% else %}
-                                
-                            <span class="number">₹ {{ope_budget.remaining_budget}}</span>
-                            {% endif %}
-                        </div>
-                        {% else %}
-                        <div class="box box3">
-                            <i class="uil uil-money-bill"></i>
-                            <span class="text">OPE Budget  Remaining</span>
-                            {% if ope_budget == 0  %}
-                            <span class="number">₹ 0</span>
-                            {% else %}
-                                
-                            <span class="number">₹ {{ope_budget.remaining_budget}}</span>
-                            {% endif %}
-                        </div>
+                    <span class="number">₹ {{flight_budget.remaining_budget}}</span>
+                    {% endif %}
+                </div>
+                {% endif %}
 
-                       {% endif %}
 
-                        
-                        
+                {% if ope_budget.remaining_budget <= remaining_budget_ope %} <div class="box box3"
+                    style="background-color: red;">
+                    <i class="uil uil-money-bill"></i>
+                    <span class="text">OPE Budget Remaining</span>
+                    {% if ope_budget == 0 %}
+                    <span class="number">₹ 0</span>
+                    {% else %}
 
-                        
-                        
-
-                           
-                        </div>
-                    </div>
-                    </div>
-                    
-                    
-                    </div>
-                
+                    <span class="number">₹ {{ope_budget.remaining_budget}}</span>
+                    {% endif %}
             </div>
+            {% else %}
+            <div class="box box3">
+                <i class="uil uil-money-bill"></i>
+                <span class="text">OPE Budget Remaining</span>
+                {% if ope_budget == 0 %}
+                <span class="number">₹ 0</span>
+                {% else %}
+
+                <span class="number">₹ {{ope_budget.remaining_budget}}</span>
+                {% endif %}
+            </div>
+
+            {% endif %}
+
+
+
+
+
+
+
+
+        </div>
+        </div>
+        </div>
+
+
+        </div>
+
+        </div>
     </section>
 
     <script src="{% static 'script.js' %}"></script>
 </body>
 
 </html>
-
-

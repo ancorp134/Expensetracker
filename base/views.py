@@ -5,6 +5,11 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import *
 from django.db.models import Q
+from datetime import datetime
+
+
+
+
 # Create your views here.
 def loginview(request):
     
@@ -36,22 +41,42 @@ def logoutview(request):
 @login_required(login_url='login')
 def EmployeeView(request):
     search_query = request.GET.get('search_query', '')
+
     employees = Employee.objects.all()
 
     if search_query:
-        employees = employees.filter(
-            Q(Emp_name__icontains=search_query) |  # Search by employee name
-            Q(contract_no__icontains=search_query) |  # Search by contract number
-            Q(contract_start_date__icontains=search_query) |  # Search by start date
-            Q(contract_end_date__icontains=search_query) |  # Search by end date
-            Q(state__icontains=search_query) |  # Search by state
-            Q(duty_station__icontains=search_query)  # Search by duty station
-        )
+        # Split the search query into individual words
+        keywords = search_query.split()
+
+        # Create an empty Q object to build the query dynamically
+        search_q = Q()
+
+        for keyword in keywords:
+            try:
+                # Try to parse the keyword as a date in various formats
+                date_obj = datetime.strptime(keyword, '%Y-%m-%d')
+            except ValueError:
+                date_obj = None
+
+            if date_obj:
+                # If the keyword is a valid date, filter employees by date
+                search_q |= Q(contract_start_date=date_obj) | Q(contract_end_date=date_obj)
+            else:
+                # If the keyword is not a date, search by other fields
+                search_q |= (
+                    Q(Emp_name__icontains=keyword) |
+                    Q(contract_no__icontains=keyword) |
+                    Q(state__icontains=keyword) |
+                    Q(duty_station__icontains=keyword)
+                )
+
+        employees = employees.filter(search_q)
 
     context = {
         'employees': employees,
         'search_query': search_query,
     }
+
     return render(request, 'employees.html', context)
 
 
@@ -89,8 +114,30 @@ def EmployeeProfileView(request, pk):
 def AdvancedTravelPlanView(request,pk):
     try:
         emp = Employee.objects.get(uuid=pk)
-        
+        search_query = request.GET.get('search_query', '')
         atp = AdvancedTravelPlan.objects.filter(employee=emp)
+        if search_query:
+        # Split the search query into individual words
+            keywords = search_query.split()
+
+            # Create an empty Q object to build the query dynamically
+            search_q = Q()
+
+            for keyword in keywords:
+                try:
+                    # Try to parse the keyword as a date in various formats
+                    date_obj = datetime.strptime(keyword, '%Y-%m-%d')
+                except ValueError:
+                    date_obj = None
+
+                if date_obj:
+                    # If the keyword is a valid date, filter employees by date
+                    search_q |= Q(from_date=date_obj) | Q(to_date=date_obj)
+                else:
+                    # If the keyword is not a date, search by other fields
+                   search_q |= Q(month__icontains=keyword) | Q(year__icontains=keyword)
+
+            atp = atp.filter(search_q)
         
     except:
         atp = None
@@ -103,33 +150,46 @@ def AdvancedTravelPlanView(request,pk):
     return render(request,"advancedtravelplan.html",context)
 
 
-@login_required(login_url='login')
-def Search(request):
-    search_query = request.GET.get('search_query')
 
-    if search_query:
-        employ = Employee.objects.filter( Q(Emp_name__icontains=search_query) | Q(contract_no__icontains=search_query))
-    else:
-        employ = Employee.objects.all()
-    context = {
-        'employ': employ,
-        'search_query': search_query,
-        }
-    return render(request,'employees.html',context)
 
 
 @login_required(login_url='login')
 def ActualTravelPlan(request,pk):
     try:
+        search_query = request.GET.get('search_query', '')
         emp = Employee.objects.get(uuid=pk)
         tp = Expense.objects.filter(employee=emp)
+
+        if search_query:
+        # Split the search query into individual words
+            keywords = search_query.split()
+
+            # Create an empty Q object to build the query dynamically
+            search_q = Q()
+
+            for keyword in keywords:
+                try:
+                    # Try to parse the keyword as a date in various formats
+                    date_obj = datetime.strptime(keyword, '%Y-%m-%d')
+                except ValueError:
+                    date_obj = None
+
+                if date_obj:
+                    # If the keyword is a valid date, filter employees by date
+                    search_q |= Q(from_date=date_obj) | Q(to_date=date_obj)
+                else:
+                    # If the keyword is not a date, search by other fields
+                    pass
+
+            tp = tp.filter(search_q)
         
     except:
         tp = None
 
     context = {
         'tp' : tp,
-        'emp' : emp
+        'emp' : emp,
+        'search_query': search_query,
     }
     
     return render(request,"actualtravelplan.html",context)
