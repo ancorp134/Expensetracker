@@ -14,7 +14,6 @@ urlpatterns = [
     path('',EmployeeView,name = "employees"),
     path('employee/<str:pk>/',EmployeeProfileView,name = "employee"),
     path('employee/<str:pk>/atp/',AdvancedTravelPlanView,name='atp'),
-    
     path('employee/<str:pk>/tp',ActualTravelPlan,name ="tp"),
     path('employee/<str:pk1>/tp/<str:pk2>/',ViewAtp,name = "viewatp"),
     
